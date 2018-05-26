@@ -320,4 +320,6 @@ twelveth%>%
 
     ## Selecting by n
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-12-1.png) Looking at Bill and Clara, it is amazing how similar they are especially in their top 4. It is interesting to see how monks is one of Bill's top 10, but it would make sense since she was only on for one season and The Monks were an adversary that took up 3 whole episodes.
+![](doctor_who_files/figure-markdown_github/unnamed-chunk-12-1.png) 
+
+Looking at Bill and Clara, it is amazing how similar they are especially in their top 4. It is interesting to see how monks is one of Bill's top 10, but it would make sense since she was only on for one season and The Monks were an adversary that took up 3 whole episodes.
