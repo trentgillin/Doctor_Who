@@ -216,7 +216,9 @@ eleventh%>%
 
     ## Selecting by n
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-8-1.png) I should have known that the eleventh doctor's most common word is "time." I also think it is pretty funny that of course the word "doctor" would be top five.
+![](doctor_who_files/figure-markdown_github/unnamed-chunk-8-1.png) 
+
+I should have known that the eleventh doctor's most common word is "time." I also think it is pretty funny that of course the word "doctor" would be top five.
 
 On to Rory, Amy, Clara, and River.
 
@@ -245,7 +247,9 @@ eleventh%>%
 
     ## Selecting by n
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-9-1.png) Alright, very intersting. Not surprising that one of the most common words for all four companions is "doctor." Being a show about time travel, also not surprising that all of the companions talk about "time" as well. For Rory, Amy, and River it is interesting that some of their top common words would be each other, not surprising since they are the Ponds. River and Clara definately have more negative top words, though this would have to be examined more in depth with a sentiment analysis.
+![](doctor_who_files/figure-markdown_github/unnamed-chunk-9-1.png) 
+
+Alright, very intersting. Not surprising that one of the most common words for all four companions is "doctor." Being a show about time travel, also not surprising that all of the companions talk about "time" as well. For Rory, Amy, and River it is interesting that some of their top common words would be each other, not surprising since they are the Ponds. River and Clara definately have more negative top words, though this would have to be examined more in depth with a sentiment analysis.
 
 ``` r
 eleventh%>%
@@ -268,7 +272,9 @@ eleventh%>%
     ## Joining, by = "word"
     ## Joining, by = "word"
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-10-1.png) Ok if I look at the proportion of positive and negative words over total words each companion saids, I was only half right. Clara had some pretty negative things to say, but so did Amy. Since running with the Doctor puts one in all sorts of danger, it is no surprise that each companion would have such high proportions of negative words. It is hard to say positive things when you might die at any moment. On to our last Doctor for this analysis, number Twelve!
+![](doctor_who_files/figure-markdown_github/unnamed-chunk-10-1.png) 
+
+Ok if I look at the proportion of positive and negative words over total words each companion saids, I was only half right. Clara had some pretty negative things to say, but so did Amy. Since running with the Doctor puts one in all sorts of danger, it is no surprise that each companion would have such high proportions of negative words. It is hard to say positive things when you might die at any moment. On to our last Doctor for this analysis, number Twelve!
 
 Twelveth Doctor
 ===============
