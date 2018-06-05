@@ -8,7 +8,7 @@ Doctor Who Text Analysis
 
 For my next project I wanted to perform a text analysis, and what could be better then analyzing my favorite tv show Doctor Who! Doctor Who is a sci-fi show that comes on BBC, it is also the longest running sci-fi. I highly recommend it if you have not already seen it.I would like to take a moment to say that as part of my analysis, I try to understand the characters motivation and might discuss their backstory or how they got to a certain point. With all that in mind, as the infamous Dr.River Song would say, "Spoilers." You have been warned!
 
-Ok, let's get down to analyzing some data! To begin I created a function that webscrapes the desired lines for the desired doctor and then creates a dataframe with three columns: Value, speaker, dialogue. The value is the sem-processed script, where each speaker has their own row, the speaker is the one saying the text, and the dialogue is their text. The code for the function can be found in the webscraping\_function.R file. This function requires two arguments: the url where you are getting the specific script and then the doctor whose time period you are scraping. The doctor argument will be placed within the speaker column so make sure to enter your text as you would want to see it. As a warning, this function might take a few seconds to run.
+Ok, let's get down to analyzing some data! To begin I created two functions that webscrapes the desired lines for the desired doctor and then creates a dataframe with three columns: Value, speaker, dialogue. The value is the sem-processed script, where each speaker has their own row, the speaker is the one saying the text, and the dialogue is their text. The code for the functions can be found in the webscraping\_function.R and tidy\_script\_function.R file. The first function needs an url for the website where you will scrape your data and the tidy\_script function will take the output of the webscraping\_finction and the name of the Doctor you are analyzing. This function places the name of the Doctor within your dataset so make sure you format accordingly.
 
 Webscraping the Transcripts
 ===========================
@@ -17,22 +17,30 @@ Webscraping the Transcripts
 #Get 11th Doctor's Lines
 url <- "http://www.chakoteya.net/DoctorWho/episodes11.html"
 
-eleventh <- webscrape_lines(url, "Eleventh:")
+eleventh <- webscrape_lines(url)
+
+eleventh <- tidy_script(eleventh, "Eleventh:")
 
 #Get 9th Doctor's Lines
 url <- "http://www.chakoteya.net/DoctorWho/episodes9.html"
 
-ninth <- webscrape_lines(url, "Ninth:")
+ninth <- webscrape_lines(url)
+
+ninth <- tidy_script(ninth, "Ninth:")
 
 #Get 10th Doctor's Lines
 url <- "http://www.chakoteya.net/DoctorWho/episodes10.html"
 
-tenth <- webscrape_lines(url, "Tenth:")
+tenth <- webscrape_lines(url)
+
+tenth <- tidy_script(tenth, "Tenth:")
 
 #Get 12th Doctor's Lines 
 url <- "http://www.chakoteya.net/DoctorWho/episodes12.html"
 
-twelveth <- webscrape_lines(url, "Twelveth:")
+twelveth <- webscrape_lines(url)
+
+twelveth <- tidy_script(twelveth, "Twelveth:")
 ```
 
 Ninth Doctor
@@ -321,3 +329,5 @@ twelveth%>%
     ## Selecting by n
 
 ![](doctor_who_files/figure-markdown_github/unnamed-chunk-12-1.png) Looking at Bill and Clara, it is amazing how similar they are especially in their top 4. It is interesting to see how monks is one of Bill's top 10, but it would make sense since she was only on for one season and The Monks were an adversary that took up 3 whole episodes.
+
+As a final note, this analysis would not be possible without Chrissie of <http://www.chakoteya.net>. Furthermore, Doctor Who and related material is the sole property of BBC.
