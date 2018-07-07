@@ -14,3 +14,6 @@ It is important to have the doctor's name spelled the way you would like it pres
 the data. Allows you to clean datasets pulled from the web so that each line is it's own row and
 that the speaker and dialogue have their own column
 }
+\examples{
+tidy_script(eleventh, "Eleventh:")
+}

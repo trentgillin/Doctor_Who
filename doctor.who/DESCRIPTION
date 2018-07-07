@@ -1,10 +1,10 @@
 Package: doctor.who
-Title: What the Package Does (one line, title case)
+Title: Functions for doctor who text analysis
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: person("Trent", "Gillingham", email = "trent.gillin@gmail.com", role = "cre")
+Description: Contains several functions that I used in my analysis of the doctor who scripts. 
 Depends: R (>= 3.5.0)
-License: What license is it under?
+License: MIT?
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1

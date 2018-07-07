@@ -1,7 +1,9 @@
 #'Pull scripts from online
+#'
+#'@param
+#'@export
 #'@details
 #'This function allows you to get the doctor who lines form the website: wwww.chakoteya.net
-#'@param
 #'@examples
 #'url <- "http://www.chakoteya.net/DoctorWho/episodes11.html"
 #'webscrape_lines(url)

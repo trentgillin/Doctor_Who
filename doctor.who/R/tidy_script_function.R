@@ -1,11 +1,13 @@
 #' Edit data that has been scrapped from the web
+#' 
 #' @param 
+#' @export
 #' @details 
 #' It is important to have the doctor's name spelled the way you would like it presented within 
 #' the data. Allows you to clean datasets pulled from the web so that each line is it's own row and
 #' that the speaker and dialogue have their own column
-#' @example
-#' tidy_script(data, "Eleventh:)
+#' @examples
+#' tidy_script(eleventh, "Eleventh:")
 
 tidy_script <- function(doctor_text, Doctor){
 

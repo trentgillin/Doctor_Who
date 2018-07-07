@@ -9,3 +9,11 @@ plot_counts(data, ...)
 \description{
 Create bar charts for speaker counts
 }
+\details{
+For multiple speakers, it is important to contain the names beteen "c()".
+See examples for details.
+}
+\examples{
+plot_counts(data, "ROSE:")
+plot_counts(data, c("Eleventh:", "CLARA:", "RIVER:"))
+}

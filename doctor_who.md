@@ -8,27 +8,27 @@ Doctor Who Text Analysis
 
 For my next project I wanted to perform a text analysis, and what could be better then analyzing my favorite tv show Doctor Who! Doctor Who is a sci-fi show that comes on BBC, it is also the longest running sci-fi. I highly recommend it if you have not already seen it.I would like to take a moment to say that as part of my analysis, I try to understand the characters motivation and might discuss their backstory or how they got to a certain point. With all that in mind, as the infamous Dr.River Song would say, "Spoilers." You have been warned!
 
-Ok, let's get down to analyzing some data! To begin I created two functions that webscrapes the desired lines for the desired doctor and then creates a dataframe with three columns: Value, speaker, dialogue. The value is the sem-processed script, where each speaker has their own row, the speaker is the one saying the text, and the dialogue is their text. The code for the functions can be found in the webscraping\_function.R and tidy\_script\_function.R file. The first function needs an url for the website where you will scrape your data and the tidy\_script function will take the output of the webscraping\_finction and the name of the Doctor you are analyzing. This function places the name of the Doctor within your dataset so make sure you format accordingly.
+Ok, let's get down to analyzing some data! To begin I created several functions to help with my analysis. The first couple of functions pulls and cleans the data, while the other ones assist in the analysis. The source code for these functions can be found in the doctor.who package.
 
 Webscraping the Transcripts
 ===========================
 
 ``` r
-#Get 11th Doctor's Lines
+# Get 11th Doctor's Lines
 url <- "http://www.chakoteya.net/DoctorWho/episodes11.html"
 
 eleventh <- webscrape_lines(url)
 
 eleventh <- tidy_script(eleventh, "Eleventh:")
 
-#Get 9th Doctor's Lines
+# Get 9th Doctor's Lines
 url <- "http://www.chakoteya.net/DoctorWho/episodes9.html"
 
 ninth <- webscrape_lines(url)
 
 ninth <- tidy_script(ninth, "Ninth:")
 
-#Get 10th Doctor's Lines
+# Get 10th Doctor's Lines
 url <- "http://www.chakoteya.net/DoctorWho/episodes10.html"
 
 tenth <- webscrape_lines(url)
@@ -49,17 +49,7 @@ Ninth Doctor
 Most words as said by the Ninth doctor.
 
 ``` r
-ninth%>%
-  filter(speaker == "Ninth:")%>%
-  unnest_tokens(word, dialogue) %>%
-  anti_join(stop_words)%>%
-  count(word, sort = TRUE)%>%
-  top_n(10)%>%
-  mutate(word = reorder(word, n))%>%
-  ggplot(aes(word,n))+geom_col(fill = "darkblue")+
-  ggtitle("The Most Common Words Said By The Ninth Doctor")+
-  ylab("Count")+
-  xlab("The Doctor's Words")
+plot_counts(ninth, "Ninth:")
 ```
 
     ## Joining, by = "word"
@@ -73,22 +63,7 @@ It is not surprising that Rose is up there, as well as time. Dead is an interest
 Let's take at look at the counts for Rose.
 
 ``` r
-ninth%>%
-  filter(speaker == "ROSE:"|
-           speaker == "Ninth:")%>%
-  unnest_tokens(word, dialogue) %>%
-  anti_join(stop_words)%>%
-  group_by(speaker)%>%
-  count(word, sort = TRUE)%>%
-  top_n(10)%>%
-  ungroup()%>%
-  mutate(word = reorder(word, n))%>%
-   ggplot(aes(word,n,fill = speaker))+geom_col(show.legend = FALSE)+
-  facet_wrap(~speaker, scales = "free_y")+
-  labs(y = "Counts",
-       x = "Words Said By Each Companion")+
-  ggtitle("Top 10 Most Said Words for the Ninth Doctor and Rose")+
-  coord_flip()
+plot_counts(ninth, c("Ninth:","ROSE:"))
 ```
 
     ## Joining, by = "word"
@@ -100,19 +75,7 @@ ninth%>%
 To give some sort of comparison, I threw in the Ninth doctor. As we can see there are similarities, such as the words Dead and Bit. Like any good companion, Doctor is right up there as well as time. Now I would like to do a sentiment analysis to see who has more positive or negative words.
 
 ``` r
-ninth%>%
-  filter(speaker == "Ninth:"|
-           speaker == "ROSE:")%>%
-  unnest_tokens(word, dialogue) %>%
-  anti_join(stop_words)%>%
-  inner_join(get_sentiments("bing")) %>%
-  group_by(speaker)%>%
-  count(sentiment, sort = TRUE)%>%
-  mutate(proportion = n/sum(n))%>%
-  ungroup()%>%
-  ggplot(aes(sentiment, proportion,fill = speaker))+geom_col(show.legend = FALSE)+
-  facet_wrap(~speaker, scales = "free_y")+
-  coord_flip()
+count_sentiments(ninth, c("Ninth:", "ROSE:"))
 ```
 
     ## Joining, by = "word"
@@ -125,20 +88,10 @@ Ok then, it seems that Rose is both a little more negative, and a little more po
 Tenth Doctor
 ============
 
-Alright, now time for the Tenth doctor and his companions.
+Alright, now time for the Tenth doctor and his companions. For the rest, I went ahead and created fuctions for the code.
 
 ``` r
-tenth%>%
-  filter(speaker == "Tenth:")%>%
-  unnest_tokens(word, dialogue) %>%
-  anti_join(stop_words)%>%
-  count(word, sort = TRUE)%>%
-  top_n(10)%>%
-  mutate(word = reorder(word, n))%>%
-  ggplot(aes(word,n))+geom_col(fill = "darkblue")+
-  ggtitle("The Most Common Words Said By The Tenth Doctor")+
-  ylab("Count")+
-  xlab("The Doctor's Words")
+plot_counts(tenth, "Tenth:")
 ```
 
     ## Joining, by = "word"
@@ -150,23 +103,7 @@ tenth%>%
 So this is interestig, Marth and Donna made the top 10 list, but Rose did not. It is possible that Martha and Donna had a little bit more screen time with appearing in odd episodes here and there. Another interesting note is how high up the word stop appears on the list. I would say that this is where the metaphorical wounds of the time war have done some healing, but the Tenth doctor still has some scars. Part of that healing process involves the Tenth doctor helping others and helping them to ammend their mistakes. The Tenth doctor thus has to say, "stop," to a cyberman take over or to a pointless civial war. Let's break the companion word count down to see how they look
 
 ``` r
-tenth%>%
-  filter(speaker == "ROSE:"|
-    speaker == "MARTHA:"|
-           speaker == "DONNA:")%>%
-  unnest_tokens(word, dialogue) %>%
-  anti_join(stop_words)%>%
-  group_by(speaker)%>%
-  count(word, sort = TRUE)%>%
-  top_n(10)%>%
-  ungroup()%>%
-  mutate(word = reorder(word, n))%>%
-   ggplot(aes(word,n,fill = speaker))+geom_col(show.legend = FALSE)+
-  facet_wrap(~speaker, scales = "free_y")+
-  labs(y = "Counts",
-       x = "Words Said By Each Companion")+
-  ggtitle("Top 10 Most Said Words for Rose, Martha, and Donna")+
-  coord_flip()
+plot_counts(tenth, c("ROSE:", "MARTHA:", "DONNA:"))
 ```
 
     ## Joining, by = "word"
@@ -178,20 +115,7 @@ tenth%>%
 Ok very interesting! My first observations is how high up Doctor, yeah, and time are for all three companions. Next, it is intersting to see that both Marth and Rose have mum pretty high on the list, which makes sense since both characters are at a point in their lives where their moms are pretty invovled. Jackie is constantly worried what trouble her daughter is getting into with the Doctor, and Rose wanted to assure her that everything was fine. Martha on the other hand, although enjoyed her time with the Doctor, she had a life to get back to and kept thinking about her mom and the rest of her family. Donna, being an older companion, did not need a mother bear figure to watch over her and care for her. She had found a new life with the Tenth doctor, and hadn't even told her mother when she first started travling with him. One last thing I would like to point out is how high up the word real was on Donna's list. She has been whisked away from her temp work on this fantastic journey, there were many times in her adventures where she couldn't belive that her life had changed so much. Now, like before, let's do a sentiment analysis of these companions diaglogue.
 
 ``` r
-tenth%>%
-  filter(speaker == "ROSE:"|
-           speaker == "MARTHA:"|
-           speaker == "DONNA:")%>%
-  unnest_tokens(word, dialogue) %>%
-  anti_join(stop_words)%>%
-  inner_join(get_sentiments("bing")) %>%
-  group_by(speaker)%>%
-  count(sentiment, sort = TRUE)%>%
-  mutate(proportion = n/sum(n))%>%
-  ungroup()%>%
-  ggplot(aes(sentiment, proportion,fill = speaker))+geom_col(show.legend = FALSE)+
-  facet_wrap(~speaker, scales = "free_y")+
-  coord_flip()
+count_sentiments(tenth,c("DONNA:", "MARTHA:", "ROSE:"))
 ```
 
     ## Joining, by = "word"
@@ -207,17 +131,7 @@ Eleventh Doctor
 Alright, now it is time for the Eleventh doctor. I am curious to see if the words Geronimo, or bow tie appear on the list.
 
 ``` r
-eleventh%>%
-  filter(speaker == "Eleventh:")%>%
-  unnest_tokens(word, dialogue) %>%
-  anti_join(stop_words)%>%
-  count(word, sort = TRUE)%>%
-  top_n(10)%>%
-  mutate(word = reorder(word, n))%>%
-  ggplot(aes(word,n))+geom_col(fill = "darkblue")+
-  ggtitle("The Most Common Words Said By The Eleventh Doctor")+
-  ylab("Count")+
-  xlab("The Doctor's Words")
+plot_counts(eleventh, "Eleventh:")
 ```
 
     ## Joining, by = "word"
@@ -229,24 +143,7 @@ eleventh%>%
 On to Rory, Amy, Clara, and River.
 
 ``` r
-eleventh%>%
-  filter(speaker == "AMY:"|
-           speaker == "RORY:"|
-           speaker == "CLARA:"|
-           speaker == "RIVER:")%>%
-  unnest_tokens(word, dialogue) %>%
-  anti_join(stop_words)%>%
-  group_by(speaker)%>%
-  count(word, sort = TRUE)%>%
-  top_n(10)%>%
-  ungroup()%>%
-  mutate(word = reorder(word, n))%>%
-   ggplot(aes(word,n,fill = speaker))+geom_col(show.legend = FALSE)+
-  facet_wrap(~speaker, scales = "free_y")+
-  labs(y = "Counts",
-       x = "Words Said By Each Companion")+
-  ggtitle("Top 10 Most Said Words for Amy, Rory, River and Clara")+
-  coord_flip()
+plot_counts(eleventh, c("AMY:", "RORY:", "RIVER:", "CLARA:"))
 ```
 
     ## Joining, by = "word"
@@ -256,21 +153,7 @@ eleventh%>%
 ![](doctor_who_files/figure-markdown_github/unnamed-chunk-9-1.png) Alright, very intersting. Not surprising that one of the most common words for all four companions is "doctor." Being a show about time travel, also not surprising that all of the companions talk about "time" as well. For Rory, Amy, and River it is interesting that some of their top common words would be each other, not surprising since they are the Ponds. River and Clara definately have more negative top words, though this would have to be examined more in depth with a sentiment analysis.
 
 ``` r
-eleventh%>%
-  filter(speaker == "AMY:"|
-           speaker == "RORY:"|
-           speaker == "CLARA:"|
-           speaker == "RIVER:")%>%
-  unnest_tokens(word, dialogue) %>%
-  anti_join(stop_words)%>%
-  inner_join(get_sentiments("bing")) %>%
-  group_by(speaker)%>%
-  count(sentiment, sort = TRUE)%>%
-  mutate(proportion = n/sum(n))%>%
-  ungroup()%>%
-  ggplot(aes(sentiment, proportion,fill = speaker))+geom_col(show.legend = FALSE)+
-  facet_wrap(~speaker, scales = "free_y")+
-  coord_flip()
+count_sentiments(eleventh, c("AMY:", "RORY:", "RIVER:", "CLARA:"))
 ```
 
     ## Joining, by = "word"
@@ -282,17 +165,7 @@ Twelveth Doctor
 ===============
 
 ``` r
-twelveth%>%
-  filter(speaker == "Twelveth:")%>%
-  unnest_tokens(word, dialogue) %>%
-  anti_join(stop_words)%>%
-  count(word, sort = TRUE)%>%
-  top_n(10)%>%
-  mutate(word = reorder(word, n))%>%
-  ggplot(aes(word,n))+geom_col(fill = "darkblue")+
-  ggtitle("The Most Common Words Said By The Twelveth Doctor")+
-  ylab("Count")+
-  xlab("The Doctor's Words")
+plot_counts(twelveth, "Twelveth:")
 ```
 
     ## Joining, by = "word"
@@ -306,22 +179,7 @@ Alright, for this doctor had to modify things ever so slightly. It seems the lin
 We see, like before, that time and the current companions for this doctor are pretty high on the list. Some notable differences would be the last word, er, it seems this is the only doctor with er on the list. Most likely this is due to the fact that the Twelveth doctor does not always care for nor undestand the social protocol of the situation and can be a little lost when someone needs a little emotional support.
 
 ``` r
-twelveth%>%
-  filter(speaker == "BILL:"|
-           speaker == "CLARA:")%>%
-  unnest_tokens(word, dialogue) %>%
-  anti_join(stop_words)%>%
-  group_by(speaker)%>%
-  count(word, sort = TRUE)%>%
-  top_n(10)%>%
-  ungroup()%>%
-  mutate(word = reorder(word, n))%>%
-   ggplot(aes(word,n,fill = speaker))+geom_col(show.legend = FALSE)+
-  facet_wrap(~speaker, scales = "free_y")+
-  labs(y = "Counts",
-       x = "Words Said By Each Companion")+
-  ggtitle("Top 10 Most Said Words for Rose, Martha, and Donna")+
-  coord_flip()
+plot_counts(twelveth, c("BILL:", "CLARA:"))
 ```
 
     ## Joining, by = "word"
@@ -329,5 +187,18 @@ twelveth%>%
     ## Selecting by n
 
 ![](doctor_who_files/figure-markdown_github/unnamed-chunk-12-1.png) Looking at Bill and Clara, it is amazing how similar they are especially in their top 4. It is interesting to see how monks is one of Bill's top 10, but it would make sense since she was only on for one season and The Monks were an adversary that took up 3 whole episodes.
+
+Now to finish up some introductory stuff, let's do one final look at sentiments, focusing specfically on Bill and Clara
+
+``` r
+count_sentiments(twelveth, c("BILL:", "CLARA:"))
+```
+
+    ## Joining, by = "word"
+    ## Joining, by = "word"
+
+![](doctor_who_files/figure-markdown_github/unnamed-chunk-13-1.png)
+
+Ok not that suprising. It looks like both Bill and Clara are pretty similar when it comes to overall the number of positive and negative words they say.
 
 As a final note, this analysis would not be possible without Chrissie of <http://www.chakoteya.net>. Furthermore, Doctor Who and related material is the sole property of BBC.
