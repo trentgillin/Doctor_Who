@@ -31,8 +31,6 @@ webscrape_lines <- function(url){
       html_nodes("td :nth-child(1)") %>%
       html_text() %>%
       as.tibble()
-    
-    print(text)
   }
   
   doctor_text <- map(doctor_links_added$value, get_text)
