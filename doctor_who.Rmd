@@ -13,17 +13,17 @@ library(purrr)
 library(tidytext)
 library(stringr)
 library(magrittr)
-library(devtools)
+library(ggthemes)
 library(doctor.who)
 ```
 
 ## Doctor Who Text Analysis 
 
-For my next project I wanted to perform a text analysis, and what could be better then analyzing my favorite tv show Doctor Who! Doctor Who is a sci-fi show that comes on BBC, it is also the longest running sci-fi. I highly recommend it if you have not already seen it.I would like to take a moment to say that as part of my analysis, I try to understand the characters motivation and might discuss their backstory or how they got to a certain point. With all that in mind, as the infamous Dr.River Song would say, "Spoilers." You have been warned!  
+For my next project I wanted to perform a text analysis, and what could be better then analyzing my favorite TV show Doctor Who! Doctor Who is a sci-fi show that comes on BBC, it is also the longest running sci-fi. I highly recommend it if you have not already seen it.I would like to take a moment to say that as part of my analysis, I try to understand the characters motivation and might discuss their back story or how they got to a certain point. With all that in mind, as the infamous Dr.River Song would say, "Spoilers." You have been warned!  
 
-Ok, let's get down to analyzing some data! To begin I created several functions to help with my analysis. The first couple of functions pulls and cleans the data, while the other ones assist in the analysis. The source code for these functions can be found in the doctor.who package. 
+OK, let's get down to analyzing some data! To begin I created several functions to help with my analysis. The first couple of functions pulls and cleans the data, while the other ones assist in the analysis. The source code for these functions can be found in the doctor.who package. 
 
-#Webscraping the Transcripts 
+#Web scraping the Transcripts 
 ```{r, results = "hide"}
 
 # Get 11th Doctor's Lines
@@ -75,27 +75,27 @@ To give some sort of comparison, I threw in the Ninth doctor. As we can see ther
 count_sentiments(ninth, c("Ninth:", "ROSE:"))
 ```
 
-Ok then, it seems that Rose is both a little more negative, and a little more positive in the words she says. The Ninth doctor is a little more brooding and withdrawn during this time of his life, while Rose is getting a chance to experience life and see new things, so this could explain why she may be more extreme in both directions. 
+OK then, it seems that Rose is both a little more negative, and a little more positive in the words she says. The Ninth doctor is a little more brooding and withdrawn during this time of his life, while Rose is getting a chance to experience life and see new things, so this could explain why she may be more extreme in both directions. 
 
 #Tenth Doctor
-Alright, now time for the Tenth doctor and his companions. For the rest, I went ahead and created fuctions for the code. 
+Alright, now time for the Tenth doctor and his companions. For the rest, I went ahead and created functions for the code. 
 ```{r}
 plot_counts(tenth, "Tenth:")
 ```
 
-So this is interestig, Marth and Donna made the top 10 list, but Rose did not. It is possible that Martha and Donna had a little bit more screen time with appearing in odd episodes here and there. Another interesting note is how high up the word stop appears on the list. I would say that this is where the metaphorical wounds of the time war have done some healing, but the Tenth doctor still has some scars. Part of that healing process involves the Tenth doctor helping others and helping them to ammend their mistakes. The Tenth doctor thus has to say, "stop," to a cyberman take over or to a pointless civial war. Let's break the companion word count down to see how they look
+So this is interesting, Martha and Donna made the top 10 list, but Rose did not. It is possible that Martha and Donna had a little bit more screen time with appearing in odd episodes here and there. Another interesting note is how high up the word stop appears on the list. I would say that this is where the metaphorical wounds of the time war have done some healing, but the Tenth doctor still has some scars. Part of that healing process involves the Tenth doctor helping others and helping them to amend their mistakes. The Tenth doctor thus has to say, "stop," to a cyber man take over or to a pointless civil war. Let's break the companion word count down to see how they look
 
 ```{r}
 plot_counts(tenth, c("ROSE:", "MARTHA:", "DONNA:"))
 ```
 
-Ok very interesting! My first observations is how high up Doctor, yeah, and time are for all three companions. Next, it is intersting to see that both Marth and Rose have mum pretty high on the list, which makes sense since both characters are at a point in their lives where their moms are pretty invovled. Jackie is constantly worried what trouble her daughter is getting into with the Doctor, and Rose wanted to assure her that everything was fine. Martha on the other hand, although enjoyed her time with the Doctor, she had a life to get back to and kept thinking about her mom and the rest of her family. Donna, being an older companion, did not need a mother bear figure to watch over her and care for her. She had found a new life with the Tenth doctor, and hadn't even told her mother when she first started travling with him. One last thing I would like to point out is how high up the word real was on Donna's list. She has been whisked away from her temp work on this fantastic journey, there were many times in her adventures where she couldn't belive that her life had changed so much. Now, like before, let's do a sentiment analysis of these companions diaglogue.
+OK very interesting! My first observations is how high up Doctor, yeah, and time are for all three companions. Next, it is interesting to see that both Martha and Rose have mum pretty high on the list, which makes sense since both characters are at a point in their lives where their moms are pretty involved. Jackie is constantly worried what trouble her daughter is getting into with the Doctor, and Rose wanted to assure her that everything was fine. Martha on the other hand, although enjoyed her time with the Doctor, she had a life to get back to and kept thinking about her mom and the rest of her family. Donna, being an older companion, did not need a mother bear figure to watch over her and care for her. She had found a new life with the Tenth doctor, and hadn't even told her mother when she first started traveling with him. One last thing I would like to point out is how high up the word real was on Donna's list. She has been whisked away from her temp work on this fantastic journey, there were many times in her adventures where she couldn't believe that her life had changed so much. Now, like before, let's do a sentiment analysis of these companions dialogue.
 
 ```{r}
 count_sentiments(tenth,c("DONNA:", "MARTHA:", "ROSE:"))
 ```
 
-Interesting, it seems that Donna had the greatest propotion of negative words, while Martha had the greatest proportion of positive words. Donna is by nature, no quite lamb, she is not afraid to put the Doctor or anyone else in their place, this could explain her having such a high proportion of negative words. Martha is brave young women for sure, and definately has to fight some pretty intense battles, but I would say out of the three companions, she has the best life situation, so it makes sense that the words she uses would be a little more positive. Alright on to the eleventh doctor!
+Interesting, it seems that Donna had the greatest proportion of negative words, while Martha had the greatest proportion of positive words. Donna is by nature, no quite lamb, she is not afraid to put the Doctor or anyone else in their place, this could explain her having such a high proportion of negative words. Martha is brave young women for sure, and definitely has to fight some pretty intense battles, but I would say out of the three companions, she has the best life situation, so it makes sense that the words she uses would be a little more positive. Alright on to the eleventh doctor!
 
 #Eleventh Doctor
 Alright, now it is time for the Eleventh doctor. I am curious to see if the words Geronimo, or bow tie appear on the list. 
@@ -109,34 +109,34 @@ On to Rory, Amy, Clara, and River.
 ```{r}
 plot_counts(eleventh, c("AMY:", "RORY:", "RIVER:", "CLARA:"))
 ```
-Alright, very intersting. Not surprising that one of the most common words for all four companions is "doctor." Being a show about time travel, also not surprising that all of the companions talk about "time" as well. For Rory, Amy, and River it is interesting that some of their top common words would be each other, not surprising since they are the Ponds. River and Clara definately have more negative top words, though this would have to be examined more in depth with a sentiment analysis. 
+Alright, very interesting. Not surprising that one of the most common words for all four companions is "doctor." Being a show about time travel, also not surprising that all of the companions talk about "time" as well. For Rory, Amy, and River it is interesting that some of their top common words would be each other, not surprising since they are the Ponds. River and Clara definitely have more negative top words, though this would have to be examined more in depth with a sentiment analysis. 
 
 ```{r}
 count_sentiments(eleventh, c("AMY:", "RORY:", "RIVER:", "CLARA:"))
 ```
-Ok if I look at the proportion of positive and negative words over total words each companion saids, I was only half right. Clara had some pretty negative things to say, but so did Amy. Since running with the Doctor puts one in all sorts of danger, it is no surprise that each companion would have such high proportions of negative words. It is hard to say positive things when you might die at any moment. On to our last Doctor for this analysis, number Twelve!
+OK if I look at the proportion of positive and negative words over total words each companion said, I was only half right. Clara had some pretty negative things to say, but so did Amy. Since running with the Doctor puts one in all sorts of danger, it is no surprise that each companion would have such high proportions of negative words. It is hard to say positive things when you might die at any moment. On to our last Doctor for this analysis, number Twelve!
 
 #Twelveth Doctor
 ```{r}
 plot_counts(twelveth, "Twelveth:")
 ```
 
-Alright, for this doctor had to modify things ever so slightly. It seems the links to each episode were stored a little differently than the other doctors and I had to change my webscraping function to accomadate this. 
+Alright, for this doctor had to modify things ever so slightly. It seems the links to each episode were stored a little differently than the other doctors and I had to change my web scraping function to accommodate this. 
 
-We see, like before, that time and the current companions for this doctor are pretty high on the list. Some notable differences would be the last word, er, it seems this is the only doctor with er on the list. Most likely this is due to the fact that the Twelveth doctor does not always care for nor undestand the social protocol of the situation and can be a little lost when someone needs a little emotional support. 
+We see, like before, that time and the current companions for this doctor are pretty high on the list. Some notable differences would be the last word, er, it seems this is the only doctor with er on the list. Most likely this is due to the fact that the Twelveth doctor does not always care for nor understand the social protocol of the situation and can be a little lost when someone needs a little emotional support. 
 
 ```{r}
 plot_counts(twelveth, c("BILL:", "CLARA:"))
 ```
 Looking at Bill and Clara, it is amazing how similar they are especially in their top 4. It is interesting to see how monks is one of Bill's top 10, but it would make sense since she was only on for one season and The Monks were an adversary that took up 3 whole episodes. 
 
-Now to finish up some introductory stuff, let's do one final look at sentiments, focusing specfically on Bill and Clara
+Now to finish up some introductory stuff, let's do one final look at sentiments, focusing specifically on Bill and Clara
 ```{r}
 count_sentiments(twelveth, c("BILL:", "CLARA:"))
 ```
 
 
-Ok not that suprising. It looks like both Bill and Clara are pretty similar when it comes to overall the number of positive and negative words they say. 
+OK not that surprising. It looks like both Bill and Clara are pretty similar when it comes to overall the number of positive and negative words they say. 
 
 As a final note, this analysis would not be possible without Chrissie of http://www.chakoteya.net. Furthermore, Doctor Who and related material is the sole property of BBC. 
 

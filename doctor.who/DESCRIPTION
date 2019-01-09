@@ -4,7 +4,18 @@ Version: 0.0.0.9000
 Authors@R: person("Trent", "Gillingham", email = "trent.gillin@gmail.com", role = "cre")
 Description: Contains several functions that I used in my analysis of the doctor who scripts. 
 Depends: R (>= 3.5.0)
-License: MIT?
+Imports:
+         rvest, 
+         purrr,
+         dplyr, 
+         magrittr, 
+         stringr, 
+         ggthemes, 
+         ggplot2, 
+         tibble, 
+         tidytext
+License: MIT
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+Suggests: testthat

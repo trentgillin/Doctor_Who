@@ -6,6 +6,11 @@
 \usage{
 plot_counts(data, ...)
 }
+\arguments{
+\item{data}{dataset}
+
+\item{...}{vector containing strings}
+}
 \description{
 Create bar charts for speaker counts
 }

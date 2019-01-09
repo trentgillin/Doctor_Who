@@ -6,6 +6,11 @@
 \usage{
 tidy_script(doctor_text, Doctor)
 }
+\arguments{
+\item{doctor_text}{dataset}
+
+\item{Doctor}{string variable for doctor}
+}
 \description{
 Edit data that has been scrapped from the web
 }

@@ -1,6 +1,7 @@
 #'Create bar charts for speaker counts
 #'
-#'@param
+#'@param data dataset
+#'@param ... vector containing strings
 #'@export
 #'@details
 #'For multiple speakers, it is important to contain the names beteen "c()".
@@ -19,10 +20,11 @@ plot_counts<- function(data, ...) {
     top_n(10) %>%
     ungroup() %>%
     mutate(word = reorder(word, n)) %>%
-    ggplot(aes(word, n, fill = speaker)) + geom_col(show.legend = FALSE) +
+    ggplot(aes(word, n, fill = speaker)) + ggplot2::geom_col(show.legend = FALSE) +
     ylab("Count") +
     xlab("Most Words")+
-    scale_fill_brewer(palette = "Dark2")+
-    coord_flip()+
-    facet_wrap(~speaker, scales = "free")
+    scale_fill_brewer(palette = "Dark2") +
+    coord_flip() +
+    facet_wrap(~speaker, scales = "free") +
+    theme_minimal()
 }

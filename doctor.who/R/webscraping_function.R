@@ -1,6 +1,6 @@
 #'Pull scripts from online
 #'
-#'@param
+#'@param url chracter statmemt of url for doctor who scripts
 #'@export
 #'@details
 #'This function allows you to get the doctor who lines from the website: wwww.chakoteya.net

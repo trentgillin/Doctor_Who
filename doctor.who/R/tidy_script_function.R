@@ -1,6 +1,7 @@
 #' Edit data that has been scrapped from the web
 #' 
-#' @param 
+#' @param doctor_text dataset
+#' @param Doctor string variable for doctor
 #' @export
 #' @details 
 #' It is important to have the doctor's name spelled the way you would like it presented within 
@@ -10,33 +11,36 @@
 #' tidy_script(eleventh, "Eleventh:")
 
 tidy_script <- function(doctor_text, Doctor){
+  
+# Get episode numbers
+episode_numbers <- as.character(1:length(doctor_text))
+
+doctor_text <- mapply(cbind, doctor_text, "episode_number"= episode_numbers, SIMPLIFY=F, stringsAsFactors = FALSE)
+
+doctor_text <- map_df(doctor_text, as.data.frame)
 
 #Tidying the doctor text
 doctor_tidy <- doctor_text %>%
-  unlist()%>%
-  as.data.frame()%>%
-  filter(.!="")%>%
-  unique()
+  dplyr::filter(value != "") %>%
+  distinct()
 
-colnames(doctor_tidy) <- "Text"
+colnames(doctor_tidy) <- c("Text", "episode_number")
 
 doctor_tidy$Text <- as.character(doctor_tidy$Text)
 
 #Splitting the dataset into proper columns
-doctor_tidy%<>%
-  mutate(diaglogue = str_split(Text, "\\W(?=[:upper:][:upper:])"))
-
-doctor_dialogue <- unique(as.tibble(unlist(doctor_tidy$diaglogue)))
-
-doctor_dialogue$value <- str_replace_all(doctor_dialogue$value, "[\r\n]" , " ")
-
-doctor_dialogue%<>%
-  mutate(speaker = ifelse(str_detect(value, "[:upper:]+\\:"), 
-                          str_extract(value, "[:upper:]+\\:"), ""),
+doctor_dialogue <- doctor_tidy %>%
+  mutate(speaker = ifelse(str_detect(Text, "[:upper:]+\\:"), 
+                          str_extract(Text, "[:upper:]+\\:"), NA),
          speaker = ifelse(str_detect(speaker, "DOCTOR:"), 
                           Doctor, speaker),
-         dialogue =ifelse(str_detect(value, "[:upper:]+\\:"), 
-                          str_extract(value, "(?<=\\:).*(?=\\()|(?<=\\:).*(?=$)"),""))
+         dialogue =ifelse(str_detect(Text, "[:upper:]+\\:"), 
+                          str_extract(Text, "(?<=\\:).*(?=\\()|(?<=\\:).*(?=$)"), NA),
+         stage_direction = ifelse(str_detect(Text, "\\[[:alpha:]+\\]|
+                                             \\([:alpha:]+"), 
+                                  str_extract(Text, "\\[[:alpha:]+\\]|
+                                              (?<=\\().*(?=\\))"), NA))
 
 return(doctor_dialogue)
 }
+

@@ -6,6 +6,11 @@
 \usage{
 count_sentiments(data, ...)
 }
+\arguments{
+\item{data}{dataset}
+
+\item{...}{vector containing strings}
+}
 \description{
 Allows to graphically represent the positive and negative words a speaker says.
 }

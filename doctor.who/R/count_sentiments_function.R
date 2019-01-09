@@ -1,6 +1,7 @@
 #' Allows to graphically represent the positive and negative words a speaker says.
 #' 
-#' @param 
+#' @param ... vector containing strings
+#' @param data dataset
 #' @export
 #' @details 
 #' Using the "bing" sentiment codes, allows you to count and graph the number of positive and negative words a 
@@ -23,5 +24,7 @@ count_sentiments <- function(data, ...){
     ggplot(aes(sentiment, Percent, fill = speaker)) +
     geom_col(show.legend = FALSE) +
     facet_wrap(~ speaker, scales = "free_y") +
-    coord_flip()
+    scale_fill_brewer(palette = "Dark2") +
+    coord_flip() +
+    theme_minimal()
 }

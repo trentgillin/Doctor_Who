@@ -6,11 +6,15 @@
 \usage{
 webscrape_lines(url)
 }
+\arguments{
+\item{url}{chracter statmemt of url for doctor who scripts}
+}
 \description{
 Pull scripts from online
 }
 \details{
-This function allows you to get the doctor who lines form the website: wwww.chakoteya.net
+This function allows you to get the doctor who lines from the website: wwww.chakoteya.net
+As with any webscraping endeavor, it is important to ask permission before scraping someone's site.
 }
 \examples{
 url <- "http://www.chakoteya.net/DoctorWho/episodes11.html"
