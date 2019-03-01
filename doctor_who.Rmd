@@ -53,6 +53,12 @@ url <- "http://www.chakoteya.net/DoctorWho/episodes12.html"
 twelveth <- webscrape_lines(url)
 
 twelveth <- tidy_script(twelveth, "Twelveth:")
+
+#save data for future use
+write_csv(ninth, "data/ninth.csv")
+write_csv(tenth, "data/tenth.csv")
+write_csv(eleventh, "data/eleventh.csv")
+write_csv(twelveth, "data/twelveth.csv")
 ```
 
 #Ninth Doctor
@@ -137,6 +143,36 @@ count_sentiments(twelveth, c("BILL:", "CLARA:"))
 
 
 OK not that surprising. It looks like both Bill and Clara are pretty similar when it comes to overall the number of positive and negative words they say. 
+
+Now to take this one step furthere, it would be interesting to see who has the most words overall in comparison to the total number of words spoken. 
+
+```{r}
+#Merge datasets together
+doctor_together <- bind_rows(ninth, tenth, eleventh, twelveth)
+
+doctor_together <- doctor_together %>%
+  unnest_tokens("words", dialogue, token = "words")
+
+#Count words
+doctor_together <- doctor_together %>%
+  filter(!is.na(words)) %>%
+  group_by(speaker) %>%
+  mutate(number_per_character = n_distinct(words))
+
+#Remove unneccesary columns
+word_numbers <- doctor_together %>%
+  select(speaker, number_per_character) %>%
+  ungroup() %>%
+  distinct()
+
+#Visualize results
+word_numbers %>%
+  top_n(10, wt = number_per_character) %>%
+  arrange(number_per_character) %>%
+  ggplot(aes(speaker, number_per_character, fill = speaker)) +
+  geom_bar(stat = "identity")
+```
+
 
 As a final note, this analysis would not be possible without Chrissie of http://www.chakoteya.net. Furthermore, Doctor Who and related material is the sole property of BBC. 
 
