@@ -12,35 +12,53 @@
 
 tidy_script <- function(doctor_text, Doctor){
   
-# Get episode numbers
-episode_numbers <- as.character(1:length(doctor_text))
-
-doctor_text <- mapply(cbind, doctor_text, "episode_number"= episode_numbers, SIMPLIFY=F, stringsAsFactors = FALSE)
-
-doctor_text <- map_df(doctor_text, as.data.frame)
-
-#Tidying the doctor text
-doctor_tidy <- doctor_text %>%
-  dplyr::filter(value != "") %>%
-  distinct()
-
-colnames(doctor_tidy) <- c("Text", "episode_number")
-
-doctor_tidy$Text <- as.character(doctor_tidy$Text)
-
-#Splitting the dataset into proper columns
-doctor_dialogue <- doctor_tidy %>%
-  mutate(speaker = ifelse(str_detect(Text, "[:upper:]+\\:"), 
-                          str_extract(Text, "[:upper:]+\\:"), NA),
-         speaker = ifelse(str_detect(speaker, "DOCTOR:"), 
-                          Doctor, speaker),
-         dialogue =ifelse(str_detect(Text, "[:upper:]+\\:"), 
-                          str_extract(Text, "(?<=\\:).*(?=\\()|(?<=\\:).*(?=$)"), NA),
-         stage_direction = ifelse(str_detect(Text, "\\[[:alpha:]+\\]|
+  # Get episode numbers
+  episode_numbers <- as.character(1:length(doctor_text))
+  
+  doctor_text <- mapply(cbind, doctor_text, "episode_number"= episode_numbers, SIMPLIFY=F, stringsAsFactors = FALSE)
+  
+  doctor_text <- map_df(doctor_text, as.data.frame)
+  
+  #Tidying the doctor text
+  doctor_tidy <- doctor_text %>%
+    dplyr::filter(value != "") %>%
+    distinct()
+  
+  colnames(doctor_tidy) <- c("Text", "episode_number")
+  
+  doctor_tidy$Text <- as.character(doctor_tidy$Text)
+  
+  doctor_tidy <- doctor_tidy %>%
+    mutate(dialogue = str_split(Text, "\\W(?=[:upper:][:upper:])"))
+  
+  doctor_dialogue <- doctor_tidy %>%
+    unnest() %>%
+    as_tibble() %>%
+    distinct()
+  
+  # filter out extra rows
+  doctor_dialogue <- doctor_dialogue %>%
+    filter(str_detect(dialogue, "\r"))
+  
+  # remove \r\n
+  doctor_dialogue <- doctor_dialogue %>%
+    mutate(dialogue = str_remove_all(dialogue, "\r\n"))
+  
+  #Splitting the dataset into proper columns
+  doctor_dialogue <- doctor_dialogue %>%
+    select(-Text) %>%
+    rename("Text" = dialogue) %>%
+    mutate(speaker = ifelse(str_detect(Text, "[:upper:]+\\:"), 
+                            str_extract(Text, "[:upper:]+\\:"), NA),
+           speaker = ifelse(str_detect(speaker, "DOCTOR:"), 
+                            Doctor, speaker),
+           dialogue =ifelse(str_detect(Text, "[:upper:]+\\:"), 
+                            str_extract(Text, "(?<=\\:).*(?=\\()|(?<=\\:).*(?=$)"), NA),
+           stage_direction = ifelse(str_detect(Text, "\\[[:alpha:]+\\]|
                                              \\([:alpha:]+"), 
-                                  str_extract(Text, "\\[[:alpha:]+\\]|
+                                    str_extract(Text, "\\[[:alpha:]+\\]|
                                               (?<=\\().*(?=\\))"), NA))
-
-return(doctor_dialogue)
+  
+  return(doctor_dialogue)
 }
 
