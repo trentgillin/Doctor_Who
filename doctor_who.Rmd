@@ -14,6 +14,7 @@ library(tidytext)
 library(stringr)
 library(magrittr)
 library(ggthemes)
+library(widyr)
 library(doctor.who)
 ```
 
@@ -53,12 +54,6 @@ url <- "http://www.chakoteya.net/DoctorWho/episodes12.html"
 twelveth <- webscrape_lines(url)
 
 twelveth <- tidy_script(twelveth, "Twelveth:")
-
-#save data for future use
-write_csv(ninth, "data/ninth.csv")
-write_csv(tenth, "data/tenth.csv")
-write_csv(eleventh, "data/eleventh.csv")
-write_csv(twelveth, "data/twelveth.csv")
 ```
 
 #Ninth Doctor
@@ -169,11 +164,51 @@ word_numbers <- doctor_together %>%
 word_numbers %>%
   top_n(10, wt = number_per_character) %>%
   arrange(number_per_character) %>%
-  ggplot(aes(speaker, number_per_character, fill = speaker)) +
-  geom_bar(stat = "identity")
+  ggplot(aes(reorder(speaker, -number_per_character), number_per_character, fill = speaker)) +
+  geom_bar(stat = "identity") 
 ```
 
+It is no surprise that the doctors of course speak the most, followed by the core group of companions. I am surprised with how far down River is. 
 
-As a final note, this analysis would not be possible without Chrissie of http://www.chakoteya.net. Furthermore, Doctor Who and related material is the sole property of BBC. 
+As a final part of the analysis, I would like to look at word counts over time, for this part of the analysis, I want to specifically focus on my favorit doctor, eleven.
+
+```{r}
+# unnest data
+eleventh <- eleventh %>%
+  unnest_tokens("words", dialogue, token = "words")
+
+# select import columns
+eleventh <- eleventh %>%
+  select(episode_number, speaker, words) %>%
+  filter(!is.na(words)) %>%
+  distinct()
+
+# group by episode number and speaker and count
+eleventh <- eleventh %>%
+  group_by(episode_number, speaker) %>%
+  mutate(counts = n_distinct(words))
+
+# select top count and visualize
+eleventh <- eleventh %>%
+  select(episode_number, speaker, counts) %>%
+  distinct() %>%
+  ungroup() %>%
+  filter(speaker %in% c("Eleventh:", "AMY:", "RORY:", "RIVER:"))
+
+# make episode number numeric
+eleventh <- eleventh %>%
+  mutate(episode_number = as.numeric(episode_number))
+
+# plot line graph
+ggplot(data = eleventh, aes(episode_number, counts, color = speaker)) +
+  geom_line() +
+  ggtitle("Word counts over time") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+No surpise the doctor is consistently the top number for counts. It is interesting that Rory stops speaking at around episode number 35, but Amy keeps going. Amy did make one last appearance right before eleventh transitioned into twelve. 
+
+As a final note, this analysis would not be possible without Chrissie of http://www.chakoteya.net, who typed up and published all of the scripts. Furthermore, Doctor Who and related material is the sole property of BBC. 
 
 

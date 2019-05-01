@@ -3,15 +3,23 @@ Doctor Who Analysis
 Trent G.
 3/22/2018
 
-Doctor Who Text Analysis
-------------------------
+## Doctor Who Text Analysis
 
-For my next project I wanted to perform a text analysis, and what could be better then analyzing my favorite tv show Doctor Who! Doctor Who is a sci-fi show that comes on BBC, it is also the longest running sci-fi. I highly recommend it if you have not already seen it.I would like to take a moment to say that as part of my analysis, I try to understand the characters motivation and might discuss their backstory or how they got to a certain point. With all that in mind, as the infamous Dr.River Song would say, "Spoilers." You have been warned!
+For my next project I wanted to perform a text analysis, and what could
+be better then analyzing my favorite TV show Doctor Who\! Doctor Who is
+a sci-fi show that comes on BBC, it is also the longest running sci-fi.
+I highly recommend it if you have not already seen it.I would like to
+take a moment to say that as part of my analysis, I try to understand
+the characters motivation and might discuss their back story or how they
+got to a certain point. With all that in mind, as the infamous Dr.River
+Song would say, “Spoilers.” You have been warned\!
 
-Ok, let's get down to analyzing some data! To begin I created several functions to help with my analysis. The first couple of functions pulls and cleans the data, while the other ones assist in the analysis. The source code for these functions can be found in the doctor.who package.
+OK, let’s get down to analyzing some data\! To begin I created several
+functions to help with my analysis. The first couple of functions pulls
+and cleans the data, while the other ones assist in the analysis. The
+source code for these functions can be found in the doctor.who package.
 
-Webscraping the Transcripts
-===========================
+\#Web scraping the Transcripts
 
 ``` r
 # Get 11th Doctor's Lines
@@ -43,10 +51,7 @@ twelveth <- webscrape_lines(url)
 twelveth <- tidy_script(twelveth, "Twelveth:")
 ```
 
-Ninth Doctor
-============
-
-Most words as said by the Ninth doctor.
+\#Ninth Doctor Most words as said by the Ninth doctor.
 
 ``` r
 plot_counts(ninth, "Ninth:")
@@ -56,11 +61,13 @@ plot_counts(ninth, "Ninth:")
 
     ## Selecting by n
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-2-1.png)
+![](doctor_who_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
-It is not surprising that Rose is up there, as well as time. Dead is an interesting one. This Doctor is still recovering from the time war and he often tells people that the time lords are dead/gone.
+It is not surprising that Rose is up there, as well as time. Dead is an
+interesting one. This Doctor is still recovering from the time war and
+he often tells people that the time lords are dead/gone.
 
-Let's take at look at the counts for Rose.
+Let’s take at look at the counts for Rose.
 
 ``` r
 plot_counts(ninth, c("Ninth:","ROSE:"))
@@ -70,9 +77,13 @@ plot_counts(ninth, c("Ninth:","ROSE:"))
 
     ## Selecting by n
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-3-1.png)
+![](doctor_who_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
-To give some sort of comparison, I threw in the Ninth doctor. As we can see there are similarities, such as the words Dead and Bit. Like any good companion, Doctor is right up there as well as time. Now I would like to do a sentiment analysis to see who has more positive or negative words.
+To give some sort of comparison, I threw in the Ninth doctor. As we can
+see there are similarities, such as the words Dead and Bit. Like any
+good companion, Doctor is right up there as well as time. Now I would
+like to do a sentiment analysis to see who has more positive or negative
+words.
 
 ``` r
 count_sentiments(ninth, c("Ninth:", "ROSE:"))
@@ -81,14 +92,17 @@ count_sentiments(ninth, c("Ninth:", "ROSE:"))
     ## Joining, by = "word"
     ## Joining, by = "word"
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](doctor_who_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-Ok then, it seems that Rose is both a little more negative, and a little more positive in the words she says. The Ninth doctor is a little more brooding and withdrawn during this time of his life, while Rose is getting a chance to experience life and see new things, so this could explain why she may be more extreme in both directions.
+OK then, it seems that Rose is both a little more negative, and a little
+more positive in the words she says. The Ninth doctor is a little more
+brooding and withdrawn during this time of his life, while Rose is
+getting a chance to experience life and see new things, so this could
+explain why she may be more extreme in both directions.
 
-Tenth Doctor
-============
-
-Alright, now time for the Tenth doctor and his companions. For the rest, I went ahead and created fuctions for the code.
+\#Tenth Doctor Alright, now time for the Tenth doctor and his
+companions. For the rest, I went ahead and created functions for the
+code.
 
 ``` r
 plot_counts(tenth, "Tenth:")
@@ -98,9 +112,18 @@ plot_counts(tenth, "Tenth:")
 
     ## Selecting by n
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-5-1.png)
+![](doctor_who_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-So this is interestig, Marth and Donna made the top 10 list, but Rose did not. It is possible that Martha and Donna had a little bit more screen time with appearing in odd episodes here and there. Another interesting note is how high up the word stop appears on the list. I would say that this is where the metaphorical wounds of the time war have done some healing, but the Tenth doctor still has some scars. Part of that healing process involves the Tenth doctor helping others and helping them to ammend their mistakes. The Tenth doctor thus has to say, "stop," to a cyberman take over or to a pointless civial war. Let's break the companion word count down to see how they look
+So this is interesting, Martha and Donna made the top 10 list, but Rose
+did not. It is possible that Martha and Donna had a little bit more
+screen time with appearing in odd episodes here and there. Another
+interesting note is how high up the word stop appears on the list. I
+would say that this is where the metaphorical wounds of the time war
+have done some healing, but the Tenth doctor still has some scars. Part
+of that healing process involves the Tenth doctor helping others and
+helping them to amend their mistakes. The Tenth doctor thus has to say,
+“stop,” to a cyber man take over or to a pointless civil war. Let’s
+break the companion word count down to see how they look
 
 ``` r
 plot_counts(tenth, c("ROSE:", "MARTHA:", "DONNA:"))
@@ -110,9 +133,25 @@ plot_counts(tenth, c("ROSE:", "MARTHA:", "DONNA:"))
 
     ## Selecting by n
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-6-1.png)
+![](doctor_who_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
-Ok very interesting! My first observations is how high up Doctor, yeah, and time are for all three companions. Next, it is intersting to see that both Marth and Rose have mum pretty high on the list, which makes sense since both characters are at a point in their lives where their moms are pretty invovled. Jackie is constantly worried what trouble her daughter is getting into with the Doctor, and Rose wanted to assure her that everything was fine. Martha on the other hand, although enjoyed her time with the Doctor, she had a life to get back to and kept thinking about her mom and the rest of her family. Donna, being an older companion, did not need a mother bear figure to watch over her and care for her. She had found a new life with the Tenth doctor, and hadn't even told her mother when she first started travling with him. One last thing I would like to point out is how high up the word real was on Donna's list. She has been whisked away from her temp work on this fantastic journey, there were many times in her adventures where she couldn't belive that her life had changed so much. Now, like before, let's do a sentiment analysis of these companions diaglogue.
+OK very interesting\! My first observations is how high up Doctor, yeah,
+and time are for all three companions. Next, it is interesting to see
+that both Martha and Rose have mum pretty high on the list, which makes
+sense since both characters are at a point in their lives where their
+moms are pretty involved. Jackie is constantly worried what trouble her
+daughter is getting into with the Doctor, and Rose wanted to assure her
+that everything was fine. Martha on the other hand, although enjoyed her
+time with the Doctor, she had a life to get back to and kept thinking
+about her mom and the rest of her family. Donna, being an older
+companion, did not need a mother bear figure to watch over her and care
+for her. She had found a new life with the Tenth doctor, and hadn’t even
+told her mother when she first started traveling with him. One last
+thing I would like to point out is how high up the word real was on
+Donna’s list. She has been whisked away from her temp work on this
+fantastic journey, there were many times in her adventures where she
+couldn’t believe that her life had changed so much. Now, like before,
+let’s do a sentiment analysis of these companions dialogue.
 
 ``` r
 count_sentiments(tenth,c("DONNA:", "MARTHA:", "ROSE:"))
@@ -121,14 +160,20 @@ count_sentiments(tenth,c("DONNA:", "MARTHA:", "ROSE:"))
     ## Joining, by = "word"
     ## Joining, by = "word"
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-7-1.png)
+![](doctor_who_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
-Interesting, it seems that Donna had the greatest propotion of negative words, while Martha had the greatest proportion of positive words. Donna is by nature, no quite lamb, she is not afraid to put the Doctor or anyone else in their place, this could explain her having such a high proportion of negative words. Martha is brave young women for sure, and definately has to fight some pretty intense battles, but I would say out of the three companions, she has the best life situation, so it makes sense that the words she uses would be a little more positive. Alright on to the eleventh doctor!
+Interesting, it seems that Donna had the greatest proportion of negative
+words, while Martha had the greatest proportion of positive words. Donna
+is by nature, no quite lamb, she is not afraid to put the Doctor or
+anyone else in their place, this could explain her having such a high
+proportion of negative words. Martha is brave young women for sure, and
+definitely has to fight some pretty intense battles, but I would say out
+of the three companions, she has the best life situation, so it makes
+sense that the words she uses would be a little more positive. Alright
+on to the eleventh doctor\!
 
-Eleventh Doctor
-===============
-
-Alright, now it is time for the Eleventh doctor. I am curious to see if the words Geronimo, or bow tie appear on the list.
+\#Eleventh Doctor Alright, now it is time for the Eleventh doctor. I am
+curious to see if the words Geronimo, or bow tie appear on the list.
 
 ``` r
 plot_counts(eleventh, "Eleventh:")
@@ -138,7 +183,10 @@ plot_counts(eleventh, "Eleventh:")
 
     ## Selecting by n
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-8-1.png) I should have known that the eleventh doctor's most common word is "time." I also think it is pretty funny that of course the word "doctor" would be top five.
+![](doctor_who_files/figure-gfm/unnamed-chunk-8-1.png)<!-- --> I should
+have known that the eleventh doctor’s most common word is “time.” I also
+think it is pretty funny that of course the word “doctor” would be top
+five.
 
 On to Rory, Amy, Clara, and River.
 
@@ -150,7 +198,14 @@ plot_counts(eleventh, c("AMY:", "RORY:", "RIVER:", "CLARA:"))
 
     ## Selecting by n
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-9-1.png) Alright, very intersting. Not surprising that one of the most common words for all four companions is "doctor." Being a show about time travel, also not surprising that all of the companions talk about "time" as well. For Rory, Amy, and River it is interesting that some of their top common words would be each other, not surprising since they are the Ponds. River and Clara definately have more negative top words, though this would have to be examined more in depth with a sentiment analysis.
+![](doctor_who_files/figure-gfm/unnamed-chunk-9-1.png)<!-- --> Alright,
+very interesting. Not surprising that one of the most common words for
+all four companions is “doctor.” Being a show about time travel, also
+not surprising that all of the companions talk about “time” as well. For
+Rory, Amy, and River it is interesting that some of their top common
+words would be each other, not surprising since they are the Ponds.
+River and Clara definitely have more negative top words, though this
+would have to be examined more in depth with a sentiment analysis.
 
 ``` r
 count_sentiments(eleventh, c("AMY:", "RORY:", "RIVER:", "CLARA:"))
@@ -159,10 +214,16 @@ count_sentiments(eleventh, c("AMY:", "RORY:", "RIVER:", "CLARA:"))
     ## Joining, by = "word"
     ## Joining, by = "word"
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-10-1.png) Ok if I look at the proportion of positive and negative words over total words each companion saids, I was only half right. Clara had some pretty negative things to say, but so did Amy. Since running with the Doctor puts one in all sorts of danger, it is no surprise that each companion would have such high proportions of negative words. It is hard to say positive things when you might die at any moment. On to our last Doctor for this analysis, number Twelve!
+![](doctor_who_files/figure-gfm/unnamed-chunk-10-1.png)<!-- --> OK if I
+look at the proportion of positive and negative words over total words
+each companion said, I was only half right. Clara had some pretty
+negative things to say, but so did Amy. Since running with the Doctor
+puts one in all sorts of danger, it is no surprise that each companion
+would have such high proportions of negative words. It is hard to say
+positive things when you might die at any moment. On to our last Doctor
+for this analysis, number Twelve\!
 
-Twelveth Doctor
-===============
+\#Twelveth Doctor
 
 ``` r
 plot_counts(twelveth, "Twelveth:")
@@ -172,11 +233,19 @@ plot_counts(twelveth, "Twelveth:")
 
     ## Selecting by n
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-11-1.png)
+![](doctor_who_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
-Alright, for this doctor had to modify things ever so slightly. It seems the links to each episode were stored a little differently than the other doctors and I had to change my webscraping function to accomadate this.
+Alright, for this doctor had to modify things ever so slightly. It seems
+the links to each episode were stored a little differently than the
+other doctors and I had to change my web scraping function to
+accommodate this.
 
-We see, like before, that time and the current companions for this doctor are pretty high on the list. Some notable differences would be the last word, er, it seems this is the only doctor with er on the list. Most likely this is due to the fact that the Twelveth doctor does not always care for nor undestand the social protocol of the situation and can be a little lost when someone needs a little emotional support.
+We see, like before, that time and the current companions for this
+doctor are pretty high on the list. Some notable differences would be
+the last word, er, it seems this is the only doctor with er on the list.
+Most likely this is due to the fact that the Twelveth doctor does not
+always care for nor understand the social protocol of the situation and
+can be a little lost when someone needs a little emotional support.
 
 ``` r
 plot_counts(twelveth, c("BILL:", "CLARA:"))
@@ -186,9 +255,14 @@ plot_counts(twelveth, c("BILL:", "CLARA:"))
 
     ## Selecting by n
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-12-1.png) Looking at Bill and Clara, it is amazing how similar they are especially in their top 4. It is interesting to see how monks is one of Bill's top 10, but it would make sense since she was only on for one season and The Monks were an adversary that took up 3 whole episodes.
+![](doctor_who_files/figure-gfm/unnamed-chunk-12-1.png)<!-- --> Looking
+at Bill and Clara, it is amazing how similar they are especially in
+their top 4. It is interesting to see how monks is one of Bill’s top 10,
+but it would make sense since she was only on for one season and The
+Monks were an adversary that took up 3 whole episodes.
 
-Now to finish up some introductory stuff, let's do one final look at sentiments, focusing specfically on Bill and Clara
+Now to finish up some introductory stuff, let’s do one final look at
+sentiments, focusing specifically on Bill and Clara
 
 ``` r
 count_sentiments(twelveth, c("BILL:", "CLARA:"))
@@ -197,8 +271,95 @@ count_sentiments(twelveth, c("BILL:", "CLARA:"))
     ## Joining, by = "word"
     ## Joining, by = "word"
 
-![](doctor_who_files/figure-markdown_github/unnamed-chunk-13-1.png)
+![](doctor_who_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
-Ok not that suprising. It looks like both Bill and Clara are pretty similar when it comes to overall the number of positive and negative words they say.
+OK not that surprising. It looks like both Bill and Clara are pretty
+similar when it comes to overall the number of positive and negative
+words they say.
 
-As a final note, this analysis would not be possible without Chrissie of <http://www.chakoteya.net>. Furthermore, Doctor Who and related material is the sole property of BBC.
+Now to take this one step furthere, it would be interesting to see who
+has the most words overall in comparison to the total number of words
+spoken.
+
+``` r
+#Merge datasets together
+doctor_together <- bind_rows(ninth, tenth, eleventh, twelveth)
+
+doctor_together <- doctor_together %>%
+  unnest_tokens("words", dialogue, token = "words")
+
+#Count words
+doctor_together <- doctor_together %>%
+  filter(!is.na(words)) %>%
+  group_by(speaker) %>%
+  mutate(number_per_character = n_distinct(words))
+
+#Remove unneccesary columns
+word_numbers <- doctor_together %>%
+  select(speaker, number_per_character) %>%
+  ungroup() %>%
+  distinct()
+
+#Visualize results
+word_numbers %>%
+  top_n(10, wt = number_per_character) %>%
+  arrange(number_per_character) %>%
+  ggplot(aes(reorder(speaker, -number_per_character), number_per_character, fill = speaker)) +
+  geom_bar(stat = "identity") 
+```
+
+![](doctor_who_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+It is no surprise that the doctors of course speak the most, followed by
+the core group of companions. I am surprised with how far down River is.
+
+As a final part of the analysis, I would like to look at word counts
+over time, for this part of the analysis, I want to specifically focus
+on my favorit doctor, eleven.
+
+``` r
+# unnest data
+eleventh <- eleventh %>%
+  unnest_tokens("words", dialogue, token = "words")
+
+# select import columns
+eleventh <- eleventh %>%
+  select(episode_number, speaker, words) %>%
+  filter(!is.na(words)) %>%
+  distinct()
+
+# group by episode number and speaker and count
+eleventh <- eleventh %>%
+  group_by(episode_number, speaker) %>%
+  mutate(counts = n_distinct(words))
+
+# select top count and visualize
+eleventh <- eleventh %>%
+  select(episode_number, speaker, counts) %>%
+  distinct() %>%
+  ungroup() %>%
+  filter(speaker %in% c("Eleventh:", "AMY:", "RORY:", "RIVER:"))
+
+# make episode number numeric
+eleventh <- eleventh %>%
+  mutate(episode_number = as.numeric(episode_number))
+
+# plot line graph
+ggplot(data = eleventh, aes(episode_number, counts, color = speaker)) +
+  geom_line() +
+  ggtitle("Word counts over time") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+![](doctor_who_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+No surpise the doctor is consistently the top number for counts. It is
+interesting that Rory stops speaking at around episode number 35, but
+Amy keeps going. Amy did make one last appearance right before eleventh
+transitioned into twelve.
+
+As a final note, this analysis would not be possible without Chrissie of
+<http://www.chakoteya.net>, who typed up and published all of the
+scripts. Furthermore, Doctor Who and related material is the sole
+property of BBC.
