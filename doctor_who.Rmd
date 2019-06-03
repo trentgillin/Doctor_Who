@@ -154,7 +154,7 @@ doctor_together <- doctor_together %>%
   group_by(speaker) %>%
   mutate(number_per_character = n_distinct(words))
 
-#Remove unneccesary columns
+#Remove unnecessary columns
 word_numbers <- doctor_together %>%
   select(speaker, number_per_character) %>%
   ungroup() %>%
@@ -177,7 +177,7 @@ As a final part of the analysis, I would like to look at word counts over time, 
 eleventh <- eleventh %>%
   unnest_tokens("words", dialogue, token = "words")
 
-# select import columns
+# select important columns
 eleventh <- eleventh %>%
   select(episode_number, speaker, words) %>%
   filter(!is.na(words)) %>%
