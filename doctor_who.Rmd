@@ -24,7 +24,8 @@ For my next project I wanted to perform a text analysis, and what could be bette
 
 OK, let's get down to analyzing some data! To begin I created several functions to help with my analysis. The first couple of functions pulls and cleans the data, while the other ones assist in the analysis. The source code for these functions can be found in the doctor.who package. 
 
-#Web scraping the Transcripts 
+# Web scraping the Transcripts 
+
 ```{r, results = "hide"}
 
 # Get 11th Doctor's Lines
@@ -56,7 +57,8 @@ twelveth <- webscrape_lines(url)
 twelveth <- tidy_script(twelveth, "Twelveth:")
 ```
 
-#Ninth Doctor
+# Ninth Doctor
+
 Most words as said by the Ninth doctor.
 ```{r}
 plot_counts(ninth, "Ninth:")
@@ -78,7 +80,8 @@ count_sentiments(ninth, c("Ninth:", "ROSE:"))
 
 OK then, it seems that Rose is both a little more negative, and a little more positive in the words she says. The Ninth doctor is a little more brooding and withdrawn during this time of his life, while Rose is getting a chance to experience life and see new things, so this could explain why she may be more extreme in both directions. 
 
-#Tenth Doctor
+# Tenth Doctor
+
 Alright, now time for the Tenth doctor and his companions. For the rest, I went ahead and created functions for the code. 
 ```{r}
 plot_counts(tenth, "Tenth:")
@@ -98,8 +101,10 @@ count_sentiments(tenth,c("DONNA:", "MARTHA:", "ROSE:"))
 
 Interesting, it seems that Donna had the greatest proportion of negative words, while Martha had the greatest proportion of positive words. Donna is by nature, no quite lamb, she is not afraid to put the Doctor or anyone else in their place, this could explain her having such a high proportion of negative words. Martha is brave young women for sure, and definitely has to fight some pretty intense battles, but I would say out of the three companions, she has the best life situation, so it makes sense that the words she uses would be a little more positive. Alright on to the eleventh doctor!
 
-#Eleventh Doctor
+# Eleventh Doctor
+
 Alright, now it is time for the Eleventh doctor. I am curious to see if the words Geronimo, or bow tie appear on the list. 
+
 ```{r}
 plot_counts(eleventh, "Eleventh:")
 ```
@@ -117,7 +122,8 @@ count_sentiments(eleventh, c("AMY:", "RORY:", "RIVER:", "CLARA:"))
 ```
 OK if I look at the proportion of positive and negative words over total words each companion said, I was only half right. Clara had some pretty negative things to say, but so did Amy. Since running with the Doctor puts one in all sorts of danger, it is no surprise that each companion would have such high proportions of negative words. It is hard to say positive things when you might die at any moment. On to our last Doctor for this analysis, number Twelve!
 
-#Twelveth Doctor
+# Twelveth Doctor
+
 ```{r}
 plot_counts(twelveth, "Twelveth:")
 ```
@@ -131,7 +137,8 @@ plot_counts(twelveth, c("BILL:", "CLARA:"))
 ```
 Looking at Bill and Clara, it is amazing how similar they are especially in their top 4. It is interesting to see how monks is one of Bill's top 10, but it would make sense since she was only on for one season and The Monks were an adversary that took up 3 whole episodes. 
 
-Now to finish up some introductory stuff, let's do one final look at sentiments, focusing specifically on Bill and Clara
+Now to finish up some introductory stuff, let's do one final look at sentiments, focusing specifically on Bill and Clara.
+
 ```{r}
 count_sentiments(twelveth, c("BILL:", "CLARA:"))
 ```
@@ -142,25 +149,25 @@ OK not that surprising. It looks like both Bill and Clara are pretty similar whe
 Now to take this one step furthere, it would be interesting to see who has the most words overall in comparison to the total number of words spoken. 
 
 ```{r}
-#Merge datasets together
+# Merge datasets together
 doctor_together <- bind_rows(ninth, tenth, eleventh, twelveth)
 
 doctor_together <- doctor_together %>%
   unnest_tokens("words", dialogue, token = "words")
 
-#Count words
+# Count words
 doctor_together <- doctor_together %>%
   filter(!is.na(words)) %>%
   group_by(speaker) %>%
   mutate(number_per_character = n_distinct(words))
 
-#Remove unnecessary columns
+# Remove unnecessary columns
 word_numbers <- doctor_together %>%
   select(speaker, number_per_character) %>%
   ungroup() %>%
   distinct()
 
-#Visualize results
+# Visualize results
 word_numbers %>%
   top_n(10, wt = number_per_character) %>%
   arrange(number_per_character) %>%

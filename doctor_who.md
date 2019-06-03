@@ -19,7 +19,7 @@ functions to help with my analysis. The first couple of functions pulls
 and cleans the data, while the other ones assist in the analysis. The
 source code for these functions can be found in the doctor.who package.
 
-\#Web scraping the Transcripts
+# Web scraping the Transcripts
 
 ``` r
 # Get 11th Doctor's Lines
@@ -51,7 +51,9 @@ twelveth <- webscrape_lines(url)
 twelveth <- tidy_script(twelveth, "Twelveth:")
 ```
 
-\#Ninth Doctor Most words as said by the Ninth doctor.
+# Ninth Doctor
+
+Most words as said by the Ninth doctor.
 
 ``` r
 plot_counts(ninth, "Ninth:")
@@ -100,9 +102,10 @@ brooding and withdrawn during this time of his life, while Rose is
 getting a chance to experience life and see new things, so this could
 explain why she may be more extreme in both directions.
 
-\#Tenth Doctor Alright, now time for the Tenth doctor and his
-companions. For the rest, I went ahead and created functions for the
-code.
+# Tenth Doctor
+
+Alright, now time for the Tenth doctor and his companions. For the rest,
+I went ahead and created functions for the code.
 
 ``` r
 plot_counts(tenth, "Tenth:")
@@ -172,8 +175,10 @@ of the three companions, she has the best life situation, so it makes
 sense that the words she uses would be a little more positive. Alright
 on to the eleventh doctor\!
 
-\#Eleventh Doctor Alright, now it is time for the Eleventh doctor. I am
-curious to see if the words Geronimo, or bow tie appear on the list.
+# Eleventh Doctor
+
+Alright, now it is time for the Eleventh doctor. I am curious to see if
+the words Geronimo, or bow tie appear on the list.
 
 ``` r
 plot_counts(eleventh, "Eleventh:")
@@ -223,7 +228,7 @@ would have such high proportions of negative words. It is hard to say
 positive things when you might die at any moment. On to our last Doctor
 for this analysis, number Twelve\!
 
-\#Twelveth Doctor
+# Twelveth Doctor
 
 ``` r
 plot_counts(twelveth, "Twelveth:")
@@ -262,7 +267,7 @@ but it would make sense since she was only on for one season and The
 Monks were an adversary that took up 3 whole episodes.
 
 Now to finish up some introductory stuff, let’s do one final look at
-sentiments, focusing specifically on Bill and Clara
+sentiments, focusing specifically on Bill and Clara.
 
 ``` r
 count_sentiments(twelveth, c("BILL:", "CLARA:"))
@@ -282,25 +287,25 @@ has the most words overall in comparison to the total number of words
 spoken.
 
 ``` r
-#Merge datasets together
+# Merge datasets together
 doctor_together <- bind_rows(ninth, tenth, eleventh, twelveth)
 
 doctor_together <- doctor_together %>%
   unnest_tokens("words", dialogue, token = "words")
 
-#Count words
+# Count words
 doctor_together <- doctor_together %>%
   filter(!is.na(words)) %>%
   group_by(speaker) %>%
   mutate(number_per_character = n_distinct(words))
 
-#Remove unneccesary columns
+# Remove unnecessary columns
 word_numbers <- doctor_together %>%
   select(speaker, number_per_character) %>%
   ungroup() %>%
   distinct()
 
-#Visualize results
+# Visualize results
 word_numbers %>%
   top_n(10, wt = number_per_character) %>%
   arrange(number_per_character) %>%
@@ -322,7 +327,7 @@ on my favorit doctor, eleven.
 eleventh <- eleventh %>%
   unnest_tokens("words", dialogue, token = "words")
 
-# select import columns
+# select important columns
 eleventh <- eleventh %>%
   select(episode_number, speaker, words) %>%
   filter(!is.na(words)) %>%
